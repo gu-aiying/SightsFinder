@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SightsFinder</string>
+    <string name="location_title">Ваше местоположение</string>
+    <string name="location_gps">55.5678, 35.6789</string>
+    <string name="button_detect">Распознать по фотографии</string>
+    <string name="nearby_title">Достопримечательности рядом</string>
 </resources>
