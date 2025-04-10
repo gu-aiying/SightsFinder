@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        viewModel.startLocationUpdates()
+
         binding.btDetect.setOnClickListener {
             // Navigate to the camera screen
             val intent = Intent(this, CameraActivity::class.java)
@@ -48,10 +50,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private val requestPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
             if (permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] == true) {
-                viewModel.fetchLocation()
+                viewModel.startLocationUpdates()
             } else {
                 binding.tvGps.text = "Отказано в разрешении"
             }
