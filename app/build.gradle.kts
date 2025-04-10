@@ -12,7 +12,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.sightsfinder"
-        minSdk = 33
+        minSdk = 29
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -86,6 +86,7 @@ dependencies {
     ksp(libs.hilt.compiler)
 
     implementation(libs.kotlinx.coroutines.android)
+    implementation(libs.kotlinx.coroutines.play.services)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -93,5 +94,8 @@ dependencies {
 
     // Glide
     implementation(libs.compose)
+
+    // GPS
+    implementation(libs.playservices.location)
 
 }

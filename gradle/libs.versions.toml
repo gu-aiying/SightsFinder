@@ -17,6 +17,8 @@ roomCompiler = "2.6.1"
 appcompat = "1.7.0"
 recyclerview = "1.4.0"
 lifecycleProcess = "2.8.7"
+playservices-location = "21.0.1"
+playservices-coroutines = "1.7.3"
 
 
 [libraries]
@@ -47,6 +49,9 @@ kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutine
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 androidx-recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
+playservices-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playservices-location" }
+kotlinx-coroutines-play-services = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-play-services", version.ref = "playservices-coroutines" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
