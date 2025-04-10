@@ -1,12 +1,10 @@
 package com.example.sightsfinder.ui.presentation.main
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.sightsfinder.data.location.LocationService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,16 +23,16 @@ class MainViewModel @Inject constructor(
 
     fun startLocationUpdates() {
         _locationState.value = LocationState.Loading
-
-        viewModelScope.launch {
-            try {
-                locationService.getLocationUpdates().collect { location ->
-                    val locationString = "${location.latitude}, ${location.longitude}"
-                    _locationState.value = LocationState.Success(locationString)
-                }
-            } catch (e: Exception) {
-                _locationState.value = LocationState.Error("Ошибка определения местоположения")
+        try {
+            locationService.startLocationUpdates { location ->
+                _locationState.value = LocationState.Success(location)
             }
+        } catch (e: Exception) {
+            _locationState.value = LocationState.Error("Ошибка определения местоположения")
         }
+    }
+
+    fun stopLocationUpdates() {
+        locationService.stopLocationUpdates()
     }
 }
