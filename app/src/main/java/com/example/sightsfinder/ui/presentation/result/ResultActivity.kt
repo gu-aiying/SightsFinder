@@ -1,24 +1,27 @@
 package com.example.sightsfinder.ui.presentation.result
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.net.toUri
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.sightsfinder.databinding.ActivityResultBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ResultActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultBinding
+    private val viewmodel: ResultViewModel by viewModels()
 
-//    @Inject lateinit var model: EuropeLandmark
-
-    private lateinit var bitmap: Bitmap
-
-
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -27,18 +30,32 @@ class ResultActivity : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
             supportActionBar!!.setDisplayShowHomeEnabled(true)
         }
+        val image = intent.getStringExtra("imageUrl")
 
-        // get imageUrl from cameraActivity and change it to bitmap
-        val imageUrl = intent.getStringExtra("imageUrl")
-        val uri = imageUrl!!.toUri()
-        bitmap = BitmapFactory.decodeStream(contentResolver.openInputStream(uri))
-
+        lifecycleScope.launch {
+            if (image != null) {
+                viewmodel.classify(image)
+                viewmodel.classifyResult?.onSuccess {
+                    binding.tvResultName.text = it.name
+                    binding.tvResultScore.text = "Possibility: " + (it.score * 100).toString() + "%"
+                }?.onFailure {
+                    binding.tvResultName.text = it.message
+                    binding.tvResultScore.text = "Possibility: undefined"
+                }
+            } else {
+                Log.e("image", "image url was not delivered correctly")
+                Toast.makeText(
+                    this@ResultActivity,
+                    "Something wrong with the uploaded image, please try again",
+                    LENGTH_SHORT
+                ).show()
+            }
+            Glide.with(this@ResultActivity)
+                .load(image)
+//                .placeholder()
+//                .error()
+                .into(binding.ivResultLandmark)
+        }
     }
-
-    override fun onDestroy() {
-
-        super.onDestroy()
-    }
-
 
 }

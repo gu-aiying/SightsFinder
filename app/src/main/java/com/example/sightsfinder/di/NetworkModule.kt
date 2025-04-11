@@ -22,10 +22,4 @@ object NetworkModule {
             .build()
     }
 
-//    @Provides
-//    @Singleton
-//    fun provideModel(@ApplicationContext context: Context): EuropeLandmark {
-//        return EuropeLandmark.newInstance(context)
-//    }
-
 }
