@@ -15,8 +15,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:textSize="30sp"
-        android:text="Элефелева Башня" />
+        android:textSize="25sp"
+        android:text="Название достопримечательности" />
+
+    <TextView
+        android:id="@+id/tv_result_score"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="18sp"
+        android:text="Вероятность：0.00%" />
 
     <ImageView
         android:id="@+id/iv_result_landmark"
@@ -31,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Расстояние：100m" />
+        android:text="Расстояние：00m" />
 
     <Button
         android:id="@+id/bt_show_map"
@@ -45,6 +53,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-        android:text="Э́йфелева ба́шня (фр. tour Eiffel, МФА: [tu.ʁ‿ɛ.fɛl]) — металлическая башня в центре Парижа, самая узнаваемая его архитектурная достопримечательность. Названа в честь главного конструктора Гюстава Эйфеля; сам Эйфель называл её просто «300-метровая башня» (tour de 300 mètres).
-Башня, впоследствии ставшая символом " />
+        android:text="Описание достопримечательности" />
 </LinearLayout>
