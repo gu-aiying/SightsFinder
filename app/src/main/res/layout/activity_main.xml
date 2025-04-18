@@ -43,6 +43,14 @@
         android:text="@string/nearby_title"
         android:textSize="20sp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_margin="50dp"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_landmarksNearby_list"
         android:layout_width="match_parent"

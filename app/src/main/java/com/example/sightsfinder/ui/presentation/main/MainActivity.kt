@@ -2,6 +2,7 @@ package com.example.sightsfinder.ui.presentation.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -32,6 +33,10 @@ class MainActivity : AppCompatActivity() {
                 is MainViewModel.LocationState.Success -> binding.tvGps.text = state.location
                 is MainViewModel.LocationState.Error -> binding.tvGps.text = state.message
             }
+        }.launchIn(lifecycleScope)
+
+        viewModel.isLoading.onEach { loading ->
+            binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
         }.launchIn(lifecycleScope)
 
         requestPermissionLauncher.launch(

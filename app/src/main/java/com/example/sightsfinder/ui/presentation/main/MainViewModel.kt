@@ -29,6 +29,9 @@ class MainViewModel @Inject constructor(
     private val _landmarks = MutableStateFlow<List<Landmark>>(emptyList())
     val landmarks = _landmarks.asStateFlow()
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading = _isLoading.asStateFlow()
+
     fun startLocationUpdates() {
         _locationState.value = LocationState.Loading
         try {
@@ -53,7 +56,9 @@ class MainViewModel @Inject constructor(
 
     fun loadNearbyLandmarks(lat: Double, lon: Double) {
         viewModelScope.launch {
+            _isLoading.value = true
             _landmarks.value = landmarkRepository.getNearbyLandmarks(lat, lon)
+            _isLoading.value = false
         }
     }
 }
