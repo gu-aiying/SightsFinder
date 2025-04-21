@@ -24,13 +24,22 @@ class LandmarkRepositoryImpl : LandmarkRepository {
             val distance = FloatArray(1)
             Location.distanceBetween(lat, lon, el.lat, el.lon, distance)
 
-            val imageUrl = try {
-                val wikiResponse = RetrofitInstance.wikipediaApi.getImageForTitle(title = name)
-                val page = wikiResponse.query.pages.values.firstOrNull()
-                page?.thumbnail?.source
+            val unsplashImage = try {
+                RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
             } catch (e: Exception) {
                 null
             }
+
+            val wikipediaImage = if (unsplashImage == null) {
+                try {
+                    val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
+                    pages.values.firstOrNull()?.thumbnail?.source
+                } catch (e: Exception) {
+                    null
+                }
+            } else null
+
+            val imageUrl = unsplashImage ?: wikipediaImage
 
             Landmark(
                 name = name,

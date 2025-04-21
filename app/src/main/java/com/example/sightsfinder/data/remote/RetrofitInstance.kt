@@ -19,4 +19,12 @@ object RetrofitInstance {
             .build()
             .create(WikipediaApi::class.java)
     }
+
+    val unsplashApi: UnsplashApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://api.unsplash.com/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(UnsplashApi::class.java)
+    }
 }
