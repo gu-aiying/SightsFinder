@@ -11,4 +11,12 @@ object RetrofitInstance {
             .build()
             .create(OverpassApi::class.java)
     }
+
+    val wikipediaApi: WikipediaApi by lazy {
+        Retrofit.Builder()
+            .baseUrl("https://ru.wikipedia.org/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(WikipediaApi::class.java)
+    }
 }

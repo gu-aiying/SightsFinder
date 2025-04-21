@@ -24,11 +24,19 @@ class LandmarkRepositoryImpl : LandmarkRepository {
             val distance = FloatArray(1)
             Location.distanceBetween(lat, lon, el.lat, el.lon, distance)
 
+            val imageUrl = try {
+                val wikiResponse = RetrofitInstance.wikipediaApi.getImageForTitle(title = name)
+                val page = wikiResponse.query.pages.values.firstOrNull()
+                page?.thumbnail?.source
+            } catch (e: Exception) {
+                null
+            }
+
             Landmark(
                 name = name,
                 latitude = el.lat,
                 longitude = el.lon,
-                imageUrl = null,
+                imageUrl = imageUrl,
                 distanceMeters = distance[0].toInt()
             )
         }.sortedBy { it.distanceMeters }

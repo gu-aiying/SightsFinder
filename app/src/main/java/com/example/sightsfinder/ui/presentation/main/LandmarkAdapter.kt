@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.sightsfinder.R
 import com.example.sightsfinder.databinding.RvLandmarksNearbyItemBinding
 import com.example.sightsfinder.domain.model.Landmark
 
@@ -44,7 +45,10 @@ class LandmarkAdapter(
 
             // Загрузить изображение, если оно есть
             Glide.with(binding.root)
-                .load(item.imageUrl ?: "https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg")
+                .load(item.imageUrl)
+                .placeholder(R.drawable.placeholder) // показывается, пока картинка загружается
+                .error(R.drawable.error_image)       // если загрузка не удалась (404, таймаут)
+                .fallback(R.drawable.no_image)       // если imageUrl == null
                 .into(binding.ivLandmark)
 
             binding.btDetail.setOnClickListener {

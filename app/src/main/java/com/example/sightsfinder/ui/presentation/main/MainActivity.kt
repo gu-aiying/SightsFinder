@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.isLoading.onEach { loading ->
             binding.progressBar.visibility = if (loading) View.VISIBLE else View.GONE
+            binding.rvLandmarksNearbyList.visibility = if (loading) View.GONE else View.VISIBLE
         }.launchIn(lifecycleScope)
 
         requestPermissionLauncher.launch(
