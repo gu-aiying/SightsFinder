@@ -39,7 +39,7 @@
 
         <activity
             android:name=".ui.presentation.result.ResultActivity"
-            android:parentActivityName=".ui.presentation.main.MainActivity"
+            android:parentActivityName=".ui.presentation.camera.CameraActivity"
             android:exported="false">
         </activity>
 

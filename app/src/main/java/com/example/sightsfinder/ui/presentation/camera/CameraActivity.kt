@@ -2,16 +2,16 @@ package com.example.sightsfinder.ui.presentation.camera
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.sightsfinder.databinding.ActivityCameraBinding
 import com.example.sightsfinder.ui.presentation.result.ResultActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CameraActivity : AppCompatActivity() {
@@ -35,13 +35,26 @@ class CameraActivity : AppCompatActivity() {
             if (uri != null) {
                 imageUrl = uri.toString()
 
-                val intent = Intent(this, ResultActivity::class.java).apply {
-                    putExtra("imageUrl", imageUrl)
+                Glide.with(this@CameraActivity)
+                    .load(imageUrl)
+    //              .placeholder()
+    //              .error()
+                    .into(binding.ivPreview)
+
+                binding.buttonsLayout.visibility = VISIBLE
+
+                binding.btYes.setOnClickListener {
+                    val intent = Intent(this, ResultActivity::class.java).apply {
+                        putExtra("imageUrl", imageUrl)
+                    }
+                    startActivity(intent)
                 }
-                lifecycleScope.launch {
-                    delay(2000)
+
+                binding.btNo.setOnClickListener {
+                    binding.buttonsLayout.visibility = GONE
+                    Glide.with(this@CameraActivity)
+                        .clear(binding.ivPreview)
                 }
-                startActivity(intent)
 
             } else {
                 // User didn't select any photo
