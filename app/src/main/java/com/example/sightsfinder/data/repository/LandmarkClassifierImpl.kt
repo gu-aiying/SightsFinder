@@ -1,11 +1,7 @@
 package com.example.sightsfinder.data.repository
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import androidx.core.graphics.scale
-import androidx.core.net.toUri
 import com.example.sightsfinder.domain.model.ClassifyRequest
 import com.example.sightsfinder.domain.model.ClassifyResult
 import com.example.sightsfinder.domain.repository.LandmarkClassifier
@@ -17,7 +13,7 @@ import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 class LandmarkClassifierImpl(
     private val context: Context,
-    private val threshold: Float = 0.5f,
+    private val threshold: Float = 0.75f,
     private val maxResult: Int = 1
 ) : LandmarkClassifier {
 
@@ -61,8 +57,7 @@ class LandmarkClassifierImpl(
         }
         val imageProcessor = ImageProcessor.Builder().build()
 
-        val imageUri = request.imageUrl.toUri()
-        val bitmap = uriToBitmap(context, imageUri)
+        val bitmap = request.image.scale(321, 321)
 
         val tensorImage = imageProcessor.process(
             TensorImage.fromBitmap(bitmap)
@@ -78,7 +73,7 @@ class LandmarkClassifierImpl(
             classifications.categories.map { category ->
                 ClassifyResult(
                     name = category.displayName,
-                    score = category.score
+                    score = category.score.toString()
                 )
             }
         }?.distinctBy { it.name } ?: emptyList()
@@ -90,21 +85,10 @@ class LandmarkClassifierImpl(
         } else {
             val classifyResult = ClassifyResult(
                 name = resultsList[0].name,
-                score = "%.2f".format(resultsList[0].score).toFloat()
+                score = resultsList[0].score
             )
             return Result.success(classifyResult)
         }
 
-    }
-
-    private fun uriToBitmap(context: Context, uri: Uri): Bitmap? {
-        return try {
-            context.contentResolver.openInputStream(uri).use { stream ->
-                BitmapFactory.decodeStream(stream).scale(321, 321)
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            null
-        }
     }
 }
