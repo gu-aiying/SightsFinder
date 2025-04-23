@@ -19,4 +19,35 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:text="Выбрать из галерии" />
+
+    <ImageView
+        android:id="@+id/iv_preview"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginVertical="20dp"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/bt_yes"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="ok" />
+
+        <Button
+            android:id="@+id/bt_no"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="20dp"
+            android:text="cancel" />
+    </LinearLayout>
+
 </LinearLayout>
