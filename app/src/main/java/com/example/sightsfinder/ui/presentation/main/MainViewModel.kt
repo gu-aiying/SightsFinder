@@ -3,8 +3,10 @@ package com.example.sightsfinder.ui.presentation.main
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sightsfinder.data.location.LocationService
+import com.example.sightsfinder.domain.model.Coordinate
 import com.example.sightsfinder.domain.model.Landmark
 import com.example.sightsfinder.domain.repository.LandmarkRepository
+import com.example.sightsfinder.domain.usecase.UpdateUserLocationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -14,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val locationService: LocationService,
-    private val landmarkRepository: LandmarkRepository
+    private val landmarkRepository: LandmarkRepository,
+    private val updateUserLocationUseCase: UpdateUserLocationUseCase
 ) : ViewModel() {
 
     sealed class LocationState {
@@ -42,6 +45,10 @@ class MainViewModel @Inject constructor(
                 val lat = parts[0].toDoubleOrNull()
                 val lon = parts[1].toDoubleOrNull()
                 if (lat != null && lon != null) {
+                    viewModelScope.launch {
+                        val coordinate = Coordinate(lat, lon)
+                        updateUserLocationUseCase(coordinate)
+                    }
                     loadNearbyLandmarks(lat, lon)
                 }
             }

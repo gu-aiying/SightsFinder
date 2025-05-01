@@ -52,11 +52,6 @@ class CameraActivity : AppCompatActivity() {
         binding = ActivityCameraBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-            supportActionBar!!.setDisplayShowHomeEnabled(true)
-        }
-
         //registerForActivityResult() needs to be finished before onCreate or onStart
         pickMedia =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
@@ -124,19 +119,6 @@ class CameraActivity : AppCompatActivity() {
     }
 
 
-//    private fun showPermissionDeniedDialog() {
-        // AlertDialog.Builder(this)
-        //        .setTitle("需要相机权限")
-        //        .setMessage("请前往设置允许相机权限")
-        //        .setPositiveButton("去设置") { _, _ ->
-        //            val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-        //                data = Uri.fromParts("package", packageName, null)
-        //            }
-        //            startActivity(intent)
-        //        }
-        //        .setNegativeButton("取消", null)
-        //        .show()
-//    }
 
 
 }

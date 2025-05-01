@@ -17,4 +17,5 @@ object LandmarkModule {
     fun provideLandmarkRepository(): LandmarkRepository {
         return LandmarkRepositoryImpl()
     }
+
 }

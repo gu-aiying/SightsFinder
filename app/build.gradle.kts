@@ -1,9 +1,12 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -12,12 +15,13 @@ android {
 
     defaultConfig {
         applicationId = "com.example.sightsfinder"
-        minSdk = 29
+        minSdk = 33
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -56,6 +60,7 @@ android {
     }
 }
 
+
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -69,6 +74,8 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.recyclerview)
     implementation(libs.androidx.lifecycle.process)
+    implementation(libs.play.services.maps)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -98,18 +105,21 @@ dependencies {
     // GPS
     implementation(libs.playservices.location)
 
-    val cameraxVersion = "1.3.1"
-
-    implementation(libs.androidx.camera.core)
-    implementation(libs.androidx.camera.camera2)
-    implementation(libs.androidx.camera.lifecycle)
-    implementation(libs.androidx.camera.video)
-
-    implementation(libs.androidx.camera.view)
-    implementation(libs.androidx.camera.extensions)
+//    val cameraxVersion = "1.3.1"
+//
+//    implementation(libs.androidx.camera.core)
+//    implementation(libs.androidx.camera.camera2)
+//    implementation(libs.androidx.camera.lifecycle)
+//    implementation(libs.androidx.camera.video)
+//
+//    implementation(libs.androidx.camera.view)
+//    implementation(libs.androidx.camera.extensions)
 
     implementation(libs.tensorflow.lite.task.vision)
     implementation(libs.tensorflow.lite.gpu.delegate.plugin)
     implementation(libs.tensorflow.lite.gpu)
 
+    implementation(libs.maps.mobile)
+
 }
+
