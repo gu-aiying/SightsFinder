@@ -8,6 +8,7 @@ import com.example.sightsfinder.domain.model.Coordinate
 import com.example.sightsfinder.domain.model.GeocodingRequest
 import com.example.sightsfinder.domain.model.GeocodingResult
 import com.example.sightsfinder.domain.repository.GetUserLocation
+import com.example.sightsfinder.domain.usecase.GetLandmarkInfoUseCase
 import com.example.sightsfinder.domain.usecase.GetLandmarkLocationUseCase
 import com.example.sightsfinder.domain.usecase.GetUserLocationUseCase
 import com.example.sightsfinder.ui.presentation.main.MainViewModel
@@ -21,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ResultViewModel @Inject constructor(
     private val getLandmarkLocationUseCase: GetLandmarkLocationUseCase,
-    private val getUserLocationUseCase: GetUserLocationUseCase
+    private val getUserLocationUseCase: GetUserLocationUseCase,
+    private var getLandmarkInfoUseCase: GetLandmarkInfoUseCase
 ) : ViewModel() {
 
     private var _getLocationResult = MutableStateFlow<Result<GeocodingResult>?>(null)
@@ -29,6 +31,12 @@ class ResultViewModel @Inject constructor(
 
     private var _distance = MutableStateFlow<Result<String>?>(null)
     val distance = _distance.asStateFlow()
+
+    private val _landmarkImage = MutableStateFlow<String?>(null)
+    val landmarkImage: StateFlow<String?> = _landmarkImage
+
+    private val _landmarkDescription = MutableStateFlow<String>("")
+    val landmarkDescription: StateFlow<String> = _landmarkDescription
 
     var userLocation = doubleArrayOf()
 
@@ -63,5 +71,15 @@ class ResultViewModel @Inject constructor(
 
     }
 
-
+    fun getLandmarkInfo(name: String) {
+        viewModelScope.launch {
+            try {
+                val info = getLandmarkInfoUseCase(name)
+                _landmarkImage.value = info.imageUrl
+                _landmarkDescription.value = info.description
+            } catch (e: Exception) {
+                _landmarkDescription.value = "Не удалось загрузить данные"
+            }
+        }
+    }
 }

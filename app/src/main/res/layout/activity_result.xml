@@ -18,6 +18,14 @@
         android:textSize="25sp"
         android:text="Название достопримечательности" />
 
+    <ImageView
+        android:id="@+id/ivLandmark"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="8dp"
+        android:visibility="visible" />
+
     <TextView
         android:id="@+id/tv_result_score"
         android:layout_width="match_parent"
@@ -51,11 +59,12 @@
         android:text="Показать на карте" />
 
     <TextView
-        android:id="@+id/tv_result_description"
+        android:id="@+id/tvResultDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:text="Описание достопримечательности" />
+        android:text="Описание достопримечательности"
+        android:layout_margin="8dp"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_fail"

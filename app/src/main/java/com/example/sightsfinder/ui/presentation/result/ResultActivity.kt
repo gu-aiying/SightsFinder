@@ -10,6 +10,7 @@ import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.sightsfinder.databinding.ActivityResultBinding
 import com.example.sightsfinder.ui.presentation.map.MapActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,6 +33,7 @@ class ResultActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val isSuccess = intent.getBooleanExtra("isSuccess", false)
+        val fromMain = intent.getBooleanExtra("fromMain", false)
 
         if (!isSuccess) {
             binding.tvFail.visibility = VISIBLE
@@ -45,16 +47,11 @@ class ResultActivity : AppCompatActivity() {
             val name = intent.getStringExtra("name")
             val score = intent.getStringExtra("score")
 
-            if (!name.isNullOrBlank()) {
-                this.lifecycleScope.launch {
-                    viewmodel.searchLocationByName(this@ResultActivity, name)
-                }
-            }
-
-            if (score != null) {
+            if (!fromMain && score != null) {
                 val possibility = "%.2f".format(score.toFloat() * 100)
-                binding.tvResultName.text = name
                 binding.tvResultScore.text = "Possibility: $possibility%"
+            } else {
+                binding.tvResultScore.visibility = GONE
             }
             binding.tvFail.visibility = GONE
 
@@ -73,6 +70,13 @@ class ResultActivity : AppCompatActivity() {
                 )
             }.launchIn(lifecycleScope)
 
+            if (!name.isNullOrBlank()) {
+                binding.tvResultName.text = name
+                this.lifecycleScope.launch {
+                    viewmodel.searchLocationByName(this@ResultActivity, name)
+                    viewmodel.getLandmarkInfo(name)
+                }
+            }
 
             viewmodel.distance.onEach { result ->
                 result?.fold(
@@ -85,6 +89,18 @@ class ResultActivity : AppCompatActivity() {
                         binding.tvResultDistance.text = "Distance: $it"
                     }
                 )
+            }.launchIn(lifecycleScope)
+
+            viewmodel.landmarkImage.onEach { imageUrl ->
+                if (!imageUrl.isNullOrBlank()) {
+                    Glide.with(this)
+                        .load(imageUrl)
+                        .into(binding.ivLandmark) // добавим ниже в layout
+                }
+            }.launchIn(lifecycleScope)
+
+            viewmodel.landmarkDescription.onEach { description ->
+                binding.tvResultDescription.text = description
             }.launchIn(lifecycleScope)
 
             binding.btShowMap.setOnClickListener {

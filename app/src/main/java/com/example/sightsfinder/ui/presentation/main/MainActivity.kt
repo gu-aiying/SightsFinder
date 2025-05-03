@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sightsfinder.databinding.ActivityMainBinding
 import com.example.sightsfinder.ui.presentation.camera.CameraActivity
+import com.example.sightsfinder.ui.presentation.result.ResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -48,7 +49,13 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter = LandmarkAdapter { landmark ->
-            Toast.makeText(this, "Нажатие: ${landmark.name}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ResultActivity::class.java).apply {
+                putExtra("name", landmark.name)
+                putExtra("score", "0.9")
+                putExtra("isSuccess", true)
+                putExtra("fromMain", true)
+            }
+            startActivity(intent)
         }
 
         binding.rvLandmarksNearbyList.layoutManager = LinearLayoutManager(this)
