@@ -5,7 +5,9 @@ import com.example.sightsfinder.domain.repository.LandmarkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.location.Location
+import android.util.Log
 import com.example.sightsfinder.data.remote.RetrofitInstance
+import com.example.sightsfinder.domain.model.LandmarkInfo
 
 class LandmarkRepositoryImpl : LandmarkRepository {
 
@@ -49,5 +51,42 @@ class LandmarkRepositoryImpl : LandmarkRepository {
                 distanceMeters = distance[0].toInt()
             )
         }.sortedBy { it.distanceMeters }
+    }
+
+    override suspend fun getLandmarkInfo(name: String): LandmarkInfo = withContext(Dispatchers.IO) {
+        val unsplashImage = try {
+            RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
+        } catch (e: Exception) {
+            null
+        }
+
+        val wikipediaImage = if (unsplashImage == null) {
+            try {
+                val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
+                pages.values.firstOrNull()?.thumbnail?.source
+            } catch (e: Exception) {
+                null
+            }
+        } else null
+
+        val image = unsplashImage ?: wikipediaImage
+
+        val normalizedTitle = name.replace(" ", "_")
+
+        val description = try {
+            val ruResponse = RetrofitInstance.wikipediaApi.getDescriptionForTitle(title = normalizedTitle)
+            val ruExtract = ruResponse.query.pages.values.firstOrNull()?.extract
+            if (!ruExtract.isNullOrBlank()) ruExtract else null
+        } catch (e: Exception) {
+            null
+        } ?: try {
+            val enResponse = RetrofitInstance.wikipediaApiEn.getDescriptionForTitle(title = normalizedTitle)
+            val enExtract = enResponse.query.pages.values.firstOrNull()?.extract
+            if (!enExtract.isNullOrBlank()) enExtract else null
+        } catch (e: Exception) {
+            null
+        } ?: "Описание достопримечательности временно недоступно"
+
+        return@withContext LandmarkInfo(imageUrl = image, description = description)
     }
 }

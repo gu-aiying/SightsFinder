@@ -1,8 +1,24 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">SightsFinder</string>
+    <string name="title_activity_maps">MapsActivity</string>
+
     <string name="location_title">Ваше местоположение</string>
     <string name="location_gps">00.0000, 00.0000</string>
     <string name="button_detect">Распознать по фотографии</string>
     <string name="nearby_title">Достопримечательности рядом</string>
-    <string name="title_activity_maps">MapsActivity</string>
+    <string name="details">Подробнее</string>
+    <string name="no_nearby">Поблизости нет достопримечательностей</string>
+
+    <string name="open_camera">Открыть Камеру</string>
+    <string name="gallery_choose">Выбрать из галерии</string>
+    <string name="ok">ok</string>
+    <string name="cancel">cancel</string>
+
+    <string name="name_sight">Название достопримечательности</string>
+    <string name="possibility">Вероятность：00.00%</string>
+    <string name="distance">Расстояние：0000 м</string>
+    <string name="address">Адрес: 00.00, 00.00</string>
+    <string name="show_map">Показать на карте</string>
+    <string name="description">Описание достопримечательности</string>
+    <string name="low_possibility">Не удалось распознать фотографию (Вероятность ниже 75%)</string>
 </resources>

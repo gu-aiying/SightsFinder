@@ -3,7 +3,6 @@ package com.example.sightsfinder.ui.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -11,10 +10,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sightsfinder.databinding.ActivityMainBinding
 import com.example.sightsfinder.ui.presentation.camera.CameraActivity
+import com.example.sightsfinder.ui.presentation.result.ResultActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -48,16 +49,42 @@ class MainActivity : AppCompatActivity() {
         )
 
         adapter = LandmarkAdapter { landmark ->
-            Toast.makeText(this, "Нажатие: ${landmark.name}", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ResultActivity::class.java).apply {
+                putExtra("name", landmark.name)
+                putExtra("score", "0.9")
+                putExtra("isSuccess", true)
+                putExtra("fromMain", true)
+                putExtra("distance", landmark.distanceMeters)
+            }
+            startActivity(intent)
         }
 
         binding.rvLandmarksNearbyList.layoutManager = LinearLayoutManager(this)
         binding.rvLandmarksNearbyList.adapter = adapter
 
         lifecycleScope.launch {
-            viewModel.landmarks.collect { landmarks ->
-                adapter.submitList(landmarks)
-            }
+            combine(
+                viewModel.landmarks,
+                viewModel.isLoading
+            ) { landmarks, isLoading -> Pair(landmarks, isLoading) }
+                .collect { (landmarks, isLoading) ->
+                    adapter.submitList(landmarks)
+
+                    binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+
+                    if (isLoading) {
+                        binding.tvNoLandmarks.visibility = View.GONE
+                        binding.rvLandmarksNearbyList.visibility = View.GONE
+                    } else {
+                        if (landmarks.isEmpty()) {
+                            binding.tvNoLandmarks.visibility = View.VISIBLE
+                            binding.rvLandmarksNearbyList.visibility = View.GONE
+                        } else {
+                            binding.tvNoLandmarks.visibility = View.GONE
+                            binding.rvLandmarksNearbyList.visibility = View.VISIBLE
+                        }
+                    }
+                }
         }
     }
 
