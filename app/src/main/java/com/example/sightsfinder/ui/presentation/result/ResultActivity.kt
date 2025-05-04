@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import com.example.sightsfinder.R
 import com.example.sightsfinder.databinding.ActivityResultBinding
 import com.example.sightsfinder.ui.presentation.map.MapActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,15 +44,19 @@ class ResultActivity : AppCompatActivity() {
             binding.tvResultDescription.visibility = INVISIBLE
             binding.btShowMap.visibility = INVISIBLE
             binding.tvResultAddress.visibility = INVISIBLE
+            binding.ivLandmark.visibility = INVISIBLE
+            binding.scrollViewDescription.visibility = INVISIBLE
         } else {
             val name = intent.getStringExtra("name")
             val score = intent.getStringExtra("score")
 
             if (!fromMain && score != null) {
                 val possibility = "%.2f".format(score.toFloat() * 100)
-                binding.tvResultScore.text = "Possibility: $possibility%"
+                binding.tvResultScore.text = "Вероятность: $possibility%"
             } else {
                 binding.tvResultScore.visibility = GONE
+                val distance = intent.getIntExtra("distance", 0)
+                binding.tvResultDistance.text = "Расстояние: $distance м"
             }
             binding.tvFail.visibility = GONE
 
@@ -59,13 +64,13 @@ class ResultActivity : AppCompatActivity() {
                 result?.fold(
                     onSuccess = {
                         binding.tvResultAddress.text =
-                            "Address: ${it.latitude}, ${it.longitude}, \n${it.address}"
+                            "Адрес: ${it.latitude}, ${it.longitude}, \n${it.address}"
                         landmarkLocation = doubleArrayOf(it.latitude, it.longitude)
                         viewmodel.calculateDistance(landmarkLocation)
                     },
                     onFailure = {
                         Log.e("error", "${it.message}")
-                        binding.tvResultAddress.text = "Address: unknown"
+                        binding.tvResultAddress.text = "Адрес: не определен"
                     }
                 )
             }.launchIn(lifecycleScope)
@@ -81,12 +86,12 @@ class ResultActivity : AppCompatActivity() {
             viewmodel.distance.onEach { result ->
                 result?.fold(
                     onSuccess = {
-                        binding.tvResultDistance.text = "Distance: $it"
+                        binding.tvResultDistance.text = "Растояние: $it"
                         userLocation = viewmodel.userLocation
                     },
                     onFailure = {
                         userLocation = viewmodel.userLocation
-                        binding.tvResultDistance.text = "Distance: $it"
+                        binding.tvResultDistance.text = "Растояние: $it"
                     }
                 )
             }.launchIn(lifecycleScope)
@@ -95,11 +100,15 @@ class ResultActivity : AppCompatActivity() {
                 if (!imageUrl.isNullOrBlank()) {
                     Glide.with(this)
                         .load(imageUrl)
-                        .into(binding.ivLandmark) // добавим ниже в layout
+                        .placeholder(R.drawable.placeholder) // показывается, пока картинка загружается
+                        .error(R.drawable.error_image)       // если загрузка не удалась (404, таймаут)
+                        .fallback(R.drawable.no_image)       // если imageUrl == null
+                        .into(binding.ivLandmark)
                 }
             }.launchIn(lifecycleScope)
 
             viewmodel.landmarkDescription.onEach { description ->
+//                binding.tvResultDescription.visibility = VISIBLE
                 binding.tvResultDescription.text = description
             }.launchIn(lifecycleScope)
 

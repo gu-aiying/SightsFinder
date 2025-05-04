@@ -38,7 +38,7 @@
         android:id="@+id/tv_landmarksNearby"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:text="@string/nearby_title"
         android:textSize="20sp" />
@@ -50,6 +50,17 @@
         android:layout_gravity="center"
         android:layout_margin="50dp"
         android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tv_no_landmarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/no_nearby"
+        android:textSize="18sp"
+        android:visibility="gone"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_landmarksNearby_list"

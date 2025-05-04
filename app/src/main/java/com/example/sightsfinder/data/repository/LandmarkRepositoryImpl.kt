@@ -5,7 +5,7 @@ import com.example.sightsfinder.domain.repository.LandmarkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import android.location.Location
-import androidx.media3.common.util.Log
+import android.util.Log
 import com.example.sightsfinder.data.remote.RetrofitInstance
 import com.example.sightsfinder.domain.model.LandmarkInfo
 
@@ -71,14 +71,21 @@ class LandmarkRepositoryImpl : LandmarkRepository {
 
         val image = unsplashImage ?: wikipediaImage
 
+        val normalizedTitle = name.replace(" ", "_")
+
         val description = try {
-            RetrofitInstance.wikipediaApi
-                .getDescriptionForTitle(title = name)
-                .query.pages.values.firstOrNull()?.extract
-                ?: "Описание достопримечательности временно недоступно"
+            val ruResponse = RetrofitInstance.wikipediaApi.getDescriptionForTitle(title = normalizedTitle)
+            val ruExtract = ruResponse.query.pages.values.firstOrNull()?.extract
+            if (!ruExtract.isNullOrBlank()) ruExtract else null
         } catch (e: Exception) {
-            "Описание достопримечательности временно недоступно"
-        }
+            null
+        } ?: try {
+            val enResponse = RetrofitInstance.wikipediaApiEn.getDescriptionForTitle(title = normalizedTitle)
+            val enExtract = enResponse.query.pages.values.firstOrNull()?.extract
+            if (!enExtract.isNullOrBlank()) enExtract else null
+        } catch (e: Exception) {
+            null
+        } ?: "Описание достопримечательности временно недоступно"
 
         return@withContext LandmarkInfo(imageUrl = image, description = description)
     }

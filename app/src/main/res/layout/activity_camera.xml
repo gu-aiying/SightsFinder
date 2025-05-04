@@ -12,13 +12,13 @@
         android:id="@+id/bt_camera"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Открыть Камеру" />
+        android:text="@string/open_camera" />
 
     <Button
         android:id="@+id/bt_album"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Выбрать из галерии" />
+        android:text="@string/gallery_choose" />
 
     <ImageView
         android:id="@+id/iv_preview"
@@ -40,14 +40,14 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="ok" />
+            android:text="@string/ok" />
 
         <Button
             android:id="@+id/bt_no"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="cancel" />
+            android:text="@string/cancel" />
     </LinearLayout>
 
 </LinearLayout>

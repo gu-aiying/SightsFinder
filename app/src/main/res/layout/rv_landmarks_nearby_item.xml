@@ -26,13 +26,13 @@
             android:id="@+id/tv_landmarkName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Эйфелева Башни" />
+            android:text="@string/name_sight" />
 
         <TextView
             android:id="@+id/tv_distance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Расстояние: 100м" />
+            android:text="@string/distance" />
 
     </LinearLayout>
 
@@ -41,5 +41,5 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Подробнее" />
+        android:text="@string/details" />
 </LinearLayout>

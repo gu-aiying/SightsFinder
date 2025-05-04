@@ -7,11 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.sightsfinder.domain.model.Coordinate
 import com.example.sightsfinder.domain.model.GeocodingRequest
 import com.example.sightsfinder.domain.model.GeocodingResult
-import com.example.sightsfinder.domain.repository.GetUserLocation
 import com.example.sightsfinder.domain.usecase.GetLandmarkInfoUseCase
 import com.example.sightsfinder.domain.usecase.GetLandmarkLocationUseCase
 import com.example.sightsfinder.domain.usecase.GetUserLocationUseCase
-import com.example.sightsfinder.ui.presentation.main.MainViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -35,7 +33,7 @@ class ResultViewModel @Inject constructor(
     private val _landmarkImage = MutableStateFlow<String?>(null)
     val landmarkImage: StateFlow<String?> = _landmarkImage
 
-    private val _landmarkDescription = MutableStateFlow<String>("")
+    private val _landmarkDescription = MutableStateFlow("")
     val landmarkDescription: StateFlow<String> = _landmarkDescription
 
     var userLocation = doubleArrayOf()
@@ -63,7 +61,7 @@ class ResultViewModel @Inject constructor(
             val results = FloatArray(1) //todo
             Location.distanceBetween(lan1, lon1, lan2, lon2, results)
             val distanceInKiloMeters = results[0] / 1000
-            _distance.value = Result.success("%.2f".format(distanceInKiloMeters) + " km")
+            _distance.value = Result.success("%.2f".format(distanceInKiloMeters) + " км")
         } else {
             userLocation = doubleArrayOf(0.0, 0.0)
             _distance.value = Result.failure(Error("Fail to get user location"))

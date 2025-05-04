@@ -3,7 +3,6 @@ package com.example.sightsfinder.ui.presentation.main
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.combine
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity() {
                 putExtra("score", "0.9")
                 putExtra("isSuccess", true)
                 putExtra("fromMain", true)
+                putExtra("distance", landmark.distanceMeters)
             }
             startActivity(intent)
         }
@@ -62,9 +63,28 @@ class MainActivity : AppCompatActivity() {
         binding.rvLandmarksNearbyList.adapter = adapter
 
         lifecycleScope.launch {
-            viewModel.landmarks.collect { landmarks ->
-                adapter.submitList(landmarks)
-            }
+            combine(
+                viewModel.landmarks,
+                viewModel.isLoading
+            ) { landmarks, isLoading -> Pair(landmarks, isLoading) }
+                .collect { (landmarks, isLoading) ->
+                    adapter.submitList(landmarks)
+
+                    binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+
+                    if (isLoading) {
+                        binding.tvNoLandmarks.visibility = View.GONE
+                        binding.rvLandmarksNearbyList.visibility = View.GONE
+                    } else {
+                        if (landmarks.isEmpty()) {
+                            binding.tvNoLandmarks.visibility = View.VISIBLE
+                            binding.rvLandmarksNearbyList.visibility = View.GONE
+                        } else {
+                            binding.tvNoLandmarks.visibility = View.GONE
+                            binding.rvLandmarksNearbyList.visibility = View.VISIBLE
+                        }
+                    }
+                }
         }
     }
 
