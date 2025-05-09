@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View.GONE
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -38,14 +37,15 @@ class ResultActivity : AppCompatActivity() {
 
         if (!isSuccess) {
             binding.tvFail.visibility = VISIBLE
-            binding.tvResultName.visibility = INVISIBLE
-            binding.tvResultScore.visibility = INVISIBLE
-            binding.tvResultDistance.visibility = INVISIBLE
-            binding.tvResultDescription.visibility = INVISIBLE
-            binding.btShowMap.visibility = INVISIBLE
-            binding.tvResultAddress.visibility = INVISIBLE
-            binding.ivLandmark.visibility = INVISIBLE
-            binding.scrollViewDescription.visibility = INVISIBLE
+            binding.ivLandmark.visibility = GONE
+            binding.tvResultName.visibility = GONE
+            binding.tvResultScore.visibility = GONE
+            binding.tvResultDistance.visibility = GONE
+            binding.tvResultDescription.visibility = GONE
+            binding.btShowMap.visibility = GONE
+            binding.tvResultAddress.visibility = GONE
+            binding.ivLandmark.visibility = GONE
+            binding.scrollViewDescription.visibility = GONE
         } else {
             val name = intent.getStringExtra("name")
             val score = intent.getStringExtra("score")
@@ -56,7 +56,8 @@ class ResultActivity : AppCompatActivity() {
             } else {
                 binding.tvResultScore.visibility = GONE
                 val distance = intent.getIntExtra("distance", 0)
-                binding.tvResultDistance.text = "Расстояние: $distance м"
+                val distanceInKiloMeter = "%.2f".format(distance / 1000.0)
+                binding.tvResultDistance.text = "Расстояние: $distanceInKiloMeter км"
             }
             binding.tvFail.visibility = GONE
 
@@ -86,12 +87,12 @@ class ResultActivity : AppCompatActivity() {
             viewmodel.distance.onEach { result ->
                 result?.fold(
                     onSuccess = {
-                        binding.tvResultDistance.text = "Растояние: $it"
+                        binding.tvResultDistance.text = "Расстояние: $it"
                         userLocation = viewmodel.userLocation
                     },
                     onFailure = {
                         userLocation = viewmodel.userLocation
-                        binding.tvResultDistance.text = "Растояние: $it"
+                        binding.tvResultDistance.text = "Расстояние: $it"
                     }
                 )
             }.launchIn(lifecycleScope)

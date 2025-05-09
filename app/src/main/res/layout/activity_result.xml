@@ -23,8 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:scaleType="centerCrop"
-        android:layout_margin="8dp"
-        android:visibility="visible" />
+        android:layout_margin="8dp" />
 
     <TextView
         android:id="@+id/tv_result_score"
@@ -79,6 +78,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="18sp"
+        android:layout_marginTop="220dp"
         android:text="@string/low_possibility"
         android:visibility="gone"/>
 </LinearLayout>
