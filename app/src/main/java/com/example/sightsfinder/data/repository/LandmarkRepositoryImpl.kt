@@ -26,22 +26,22 @@ class LandmarkRepositoryImpl : LandmarkRepository {
             val distance = FloatArray(1)
             Location.distanceBetween(lat, lon, el.lat, el.lon, distance)
 
-            val unsplashImage = try {
-                RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
+            val wikipediaImage = try {
+                val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
+                pages.values.firstOrNull()?.thumbnail?.source
             } catch (e: Exception) {
                 null
             }
 
-            val wikipediaImage = if (unsplashImage == null) {
+            val unsplashImage = if (wikipediaImage == null) {
                 try {
-                    val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
-                    pages.values.firstOrNull()?.thumbnail?.source
+                    RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
                 } catch (e: Exception) {
                     null
                 }
             } else null
 
-            val imageUrl = unsplashImage ?: wikipediaImage
+            val imageUrl = wikipediaImage ?: unsplashImage
 
             Landmark(
                 name = name,
@@ -54,22 +54,22 @@ class LandmarkRepositoryImpl : LandmarkRepository {
     }
 
     override suspend fun getLandmarkInfo(name: String): LandmarkInfo = withContext(Dispatchers.IO) {
-        val unsplashImage = try {
-            RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
+        val wikipediaImage = try {
+            val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
+            pages.values.firstOrNull()?.thumbnail?.source
         } catch (e: Exception) {
             null
         }
 
-        val wikipediaImage = if (unsplashImage == null) {
+        val unsplashImage = if (wikipediaImage == null) {
             try {
-                val pages = RetrofitInstance.wikipediaApi.getImageForTitle(title = name).query.pages
-                pages.values.firstOrNull()?.thumbnail?.source
+                RetrofitInstance.unsplashApi.searchPhotos(name).results.firstOrNull()?.urls?.small
             } catch (e: Exception) {
                 null
             }
         } else null
 
-        val image = unsplashImage ?: wikipediaImage
+        val imageUrl = wikipediaImage ?: unsplashImage
 
         val normalizedTitle = name.replace(" ", "_")
 
@@ -87,6 +87,6 @@ class LandmarkRepositoryImpl : LandmarkRepository {
             null
         } ?: "Описание достопримечательности временно недоступно"
 
-        return@withContext LandmarkInfo(imageUrl = image, description = description)
+        return@withContext LandmarkInfo(imageUrl = imageUrl, description = description)
     }
 }

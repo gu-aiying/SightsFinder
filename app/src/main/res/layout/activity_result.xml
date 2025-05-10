@@ -8,15 +8,18 @@
     android:layout_width="match_parent"
     android:padding="10dp"
     android:layout_height="match_parent"
+    android:background="@color/beige"
     tools:context=".ui.presentation.result.ResultActivity">
 
     <TextView
         android:id="@+id/tv_result_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="@string/name_sight"
         android:textAlignment="center"
-        android:textSize="25sp"
-        android:text="@string/name_sight" />
+        android:textSize="25sp" />
 
     <ImageView
         android:id="@+id/ivLandmark"
@@ -32,6 +35,8 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:layout_marginVertical="8dp"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/possibility" />
 
     <TextView
@@ -40,6 +45,8 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:textSize="18sp"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/distance" />
 
     <TextView
@@ -48,6 +55,8 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_marginVertical="8dp"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/address" />
 
     <Button
@@ -55,6 +64,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
+        android:padding="15dp"
+        android:background="@drawable/btn_rounded"
+        android:textColor="@color/beige"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/show_map" />
 
     <ScrollView
@@ -67,6 +80,8 @@
             android:id="@+id/tvResultDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_blue"
+            android:fontFamily="@font/montserrat_medium"
             android:text="@string/description"
             android:layout_margin="8dp"
             android:textSize="16sp" />
@@ -79,6 +94,8 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:layout_marginTop="220dp"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/low_possibility"
         android:visibility="gone"/>
 </LinearLayout>

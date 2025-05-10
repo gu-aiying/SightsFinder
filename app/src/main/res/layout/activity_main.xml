@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/beige"
     tools:context=".ui.presentation.main.MainActivity">
 
     <TextView
@@ -13,7 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="60dp"
+        android:textColor="@color/dark_blue"
         android:text="@string/location_title"
+        android:fontFamily="@font/montserrat_semibold"
         android:textSize="20sp" />
 
     <TextView
@@ -23,6 +26,8 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:text="@string/location_gps"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/montserrat_medium"
         android:textSize="24sp" />
 
     <Button
@@ -31,8 +36,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:backgroundTint="@color/purple_200"
-        android:text="@string/button_detect" />
+        android:background="@drawable/btn_rounded"
+        android:fontFamily="@font/montserrat_semibold"
+        android:padding="16dp"
+        android:text="@string/button_detect"
+        android:textColor="@color/beige" />
 
     <TextView
         android:id="@+id/tv_landmarksNearby"
@@ -40,7 +48,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
+        android:textColor="@color/dark_blue"
         android:text="@string/nearby_title"
+        android:fontFamily="@font/montserrat_semibold"
         android:textSize="20sp" />
 
     <ProgressBar
@@ -49,6 +59,7 @@
         android:layout_height="50dp"
         android:layout_gravity="center"
         android:layout_margin="50dp"
+        android:indeterminateTint="@color/blue"
         android:visibility="gone" />
 
     <TextView
@@ -57,14 +68,16 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
+        android:fontFamily="@font/montserrat_medium"
         android:text="@string/no_nearby"
-        android:textSize="18sp"
-        android:visibility="gone"
-        />
+        android:textColor="@color/dark_blue"
+        android:textSize="16sp"
+        android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_landmarksNearby_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         tools:listitem="@layout/rv_landmarks_nearby_item"/>
 </LinearLayout>

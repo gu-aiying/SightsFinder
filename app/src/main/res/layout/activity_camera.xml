@@ -6,19 +6,29 @@
     android:paddingTop="20dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/beige"
     tools:context=".ui.presentation.camera.CameraActivity">
 
     <Button
         android:id="@+id/bt_camera"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_rounded"
+        android:textColor="@color/beige"
+        android:padding="10dp"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/open_camera" />
 
     <Button
         android:id="@+id/bt_album"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="@string/gallery_choose" />
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:background="@drawable/btn_rounded"
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="@string/gallery_choose"
+        android:textColor="@color/beige" />
 
     <ImageView
         android:id="@+id/iv_preview"
@@ -40,6 +50,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:background="@drawable/btn_rounded"
+            android:textColor="@color/beige"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="@string/ok" />
 
         <Button
@@ -47,6 +61,10 @@
             android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
+            android:padding="10dp"
+            android:background="@drawable/btn_rounded"
+            android:textColor="@color/beige"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="@string/cancel" />
     </LinearLayout>
 

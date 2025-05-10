@@ -5,14 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="65dp"
     android:gravity="center_vertical"
+    android:background="@color/beige"
+    android:layout_marginBottom="5dp"
     android:orientation="horizontal">
 
     <ImageView
         android:id="@+id/iv_landmark"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:scaleType="centerCrop"
         android:layout_margin="10dp"
+        android:background="@drawable/btn_rounded"
         tools:srcCompat="@tools:sample/backgrounds/scenic" />
 
     <LinearLayout
@@ -26,12 +29,16 @@
             android:id="@+id/tv_landmarkName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_blue"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="@string/name_sight" />
 
         <TextView
             android:id="@+id/tv_distance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark_blue"
+            android:fontFamily="@font/montserrat_semibold"
             android:text="@string/distance" />
 
     </LinearLayout>
@@ -41,5 +48,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:background="@drawable/btn_rounded"
+        android:backgroundTint="@color/purple"
+        android:textColor="@color/beige"
+        android:layout_margin="10dp"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/details" />
 </LinearLayout>
